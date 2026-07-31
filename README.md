@@ -78,6 +78,27 @@ applicable ceiling. Two estimates are provided per parcel:
 rows counted toward a property's eligibility — it approximates total building
 area, not living area specifically.
 
+## Corrections log
+
+- **Eligibility bug (fixed):** the initial prefix-based classifier matched
+  any structure code starting with "M" as mercantile/retail. EPCAD's table
+  also uses bare codes `M1`–`M5` to mean **multifamily** (residential), and
+  `QI` ("Office/Apartments") for a building that already contains housing.
+  Both were being incorrectly counted as eligible office/retail candidates.
+  Fixed by requiring a letter (not a digit) immediately after "M" for
+  mercantile matches, excluding `QI` explicitly, and adding a blanket
+  description-based exclusion for any code mentioning multifamily,
+  apartment, condo, duplex/triplex/quadplex, or mobile home — regardless of
+  which prefix it happens to share. **Existing residential buildings,
+  including multifamily, are not eligible conversion candidates under SB
+  840 and are excluded from both the confirmed and potential tiers.**
+- **Scope corrected to City of El Paso only.** SB 840 Chapter 218 applies
+  within municipal jurisdiction, not the extraterritorial jurisdiction or
+  other municipalities in the county. The parcel filter now requires the
+  city/jurisdiction field to match El Paso before a parcel is included —
+  confirm the exact field/value for your parcel export with
+  `inspect-city-field`.
+
 ## Key assumptions and known limitations
 
 - **EPCAD's documented schema for the Properties crosswalk file did not match
