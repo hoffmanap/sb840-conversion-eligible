@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SB 840 Conversion Candidates — El Paso, TX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+  :root{
+    --paper:#FEFEFC; --ink:#161513; --ink-soft:#5A5750; --rule:#DDD9CE;
+    --accent:#1D5C4F; --accent-soft:#E9F1EE;
+    --confirmed:#1D5C4F; --potential:#9C6B15;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.6;}
+  .sans{font-family:'Inter',sans-serif;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 24px;}
+  .eyebrow{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+  h1{font-size:clamp(30px,5vw,46px);font-weight:600;line-height:1.15;margin:0 0 18px;}
+  h2{font-family:'Inter',sans-serif;font-size:22px;font-weight:600;margin:0 0 6px;}
+  p.lede{font-size:19px;color:var(--ink-soft);max-width:640px;}
+  header{padding:56px 0 40px;border-bottom:1px solid var(--rule);}
+  section{padding:44px 0;border-bottom:1px solid var(--rule);}
+  section > p.sub{color:var(--ink-soft);font-size:16px;max-width:620px;margin:0 0 28px;}
+  .stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);margin:28px 0;}
+  .stat{padding:16px 18px;border-left:1px solid var(--rule);}
+  .stat:first-child{border-left:none;}
+  .stat .n{font-family:'Inter',sans-serif;font-size:30px;font-weight:600;font-variant-numeric:tabular-nums;}
+  .stat .l{font-family:'Inter',sans-serif;font-size:12px;color:var(--ink-soft);margin-top:2px;}
+  .bars{margin:24px 0;}
+  .bar-row{display:flex;align-items:center;gap:14px;margin-bottom:10px;}
+  .bar-label{font-family:'Inter',sans-serif;font-size:13px;color:var(--ink-soft);width:110px;flex-shrink:0;text-align:right;}
+  .bar-track{flex:1;background:var(--accent-soft);height:26px;position:relative;}
+  .bar-fill{background:var(--accent);height:100%;display:flex;align-items:center;padding-left:8px;}
+  .bar-fill.potential{background:var(--potential);}
+  .bar-fill span{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:#fff;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+  .two-col h3{font-family:'Inter',sans-serif;font-size:15px;font-weight:600;margin:0 0 8px;}
+  .two-col ul{margin:0;padding-left:18px;font-size:15px;color:var(--ink-soft);}
+  .two-col li{margin-bottom:6px;}
+  .req-list{list-style:none;margin:0;padding:0;}
+  .req-list li{display:flex;gap:16px;padding:14px 0;border-bottom:1px solid var(--rule);}
+  .req-list li:last-child{border-bottom:none;}
+  .req-num{font-family:'Inter',sans-serif;font-size:12px;color:var(--accent);font-weight:600;flex-shrink:0;width:20px;padding-top:2px;}
+  .req-body h3{font-family:'Inter',sans-serif;font-size:15.5px;font-weight:600;margin:0 0 3px;}
+  .req-body p{font-size:15px;color:var(--ink-soft);margin:0;}
+  .controls{font-family:'Inter',sans-serif;display:flex;flex-wrap:wrap;gap:16px;margin:20px 0 24px;align-items:end;}
+  .field{display:flex;flex-direction:column;gap:4px;}
+  .field label{font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-soft);font-weight:600;}
+  .field select,.field input{font-family:'Inter',sans-serif;padding:7px 9px;border:1px solid var(--ink);background:#fff;font-size:13.5px;min-width:150px;}
+  #map{height:440px;border:1px solid var(--ink);margin-bottom:18px;}
+  .legend{font-family:'Inter',sans-serif;display:flex;gap:20px;font-size:13px;margin-bottom:14px;flex-wrap:wrap;color:var(--ink-soft);}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .dot{width:11px;height:11px;border-radius:50%;display:inline-block;}
+  table{width:100%;border-collapse:collapse;font-family:'Inter',sans-serif;font-size:13px;}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--rule);}
+  th{font-size:10.5px;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-soft);border-bottom:2px solid var(--ink);font-weight:600;}
+  tr:hover td{background:var(--accent-soft);}
+  .pill{font-size:10.5px;padding:2px 7px;font-weight:600;text-transform:uppercase;letter-spacing:0.02em;}
+  .pill.confirmed{background:var(--accent-soft);color:var(--confirmed);}
+  .pill.potential{background:#F7EEDD;color:var(--potential);}
+  .table-wrap{max-height:420px;overflow-y:auto;border:1px solid var(--rule);}
+  .count-line{font-family:'Inter',sans-serif;font-size:13.5px;color:var(--ink-soft);margin-bottom:12px;}
+  .count-line b{color:var(--ink);}
+  .loading{font-family:'Inter',sans-serif;color:var(--ink-soft);font-size:14px;padding:24px 0;}
+  footer{padding:36px 0 72px;color:var(--ink-soft);font-size:13.5px;font-family:'Inter',sans-serif;}
+  footer a{color:var(--accent);}
+  @media(max-width:640px){.two-col{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">SB 840 Conversion Candidates</div>
+    <h1>Which El Paso office, retail, and warehouse buildings could become housing</h1>
+    <p class="lede">Texas SB 840 (89th Legislature) forces cities over 150,000 people to allow qualifying commercial
+    buildings to convert to multifamily or mixed-use residential — no rezoning case, no added parking, no traffic
+    study. This is every El Paso parcel the county's own appraisal records say might qualify, built from EPCAD
+    parcel, improvement, and property data.</p>
+    <div class="stat-row" id="hero-stats">
+      <div class="stat"><div class="n" id="hs-total">—</div><div class="l">Candidate parcels</div></div>
+      <div class="stat"><div class="n" id="hs-confirmed">—</div><div class="l">Confirmed</div></div>
+      <div class="stat"><div class="n" id="hs-potential">—</div><div class="l">Potential</div></div>
+      <div class="stat"><div class="n" id="hs-units">—</div><div class="l">Max units possible</div></div>
+      <div class="stat"><div class="n" id="hs-acres">—</div><div class="l">Acres in play</div></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">What the bill requires</div>
+    <h2>Not a blanket rezoning</h2>
+    <p class="sub">SB 840 (Local Government Code Ch. 218) only opens this door for buildings that clear a specific
+    set of conditions.</p>
+    <ul class="req-list">
+      <li><span class="req-num">01</span><div class="req-body"><h3>Office, retail, or warehouse use</h3><p>The building's current, on-record use has to be one of these three categories — restaurants, auto shops, hotels and similar commercial uses don't qualify.</p></div></li>
+      <li><span class="req-num">02</span><div class="req-body"><h3>Built 5+ years ago</h3><p>The structure must have been constructed at least five years before the conversion date.</p></div></li>
+      <li><span class="req-num">03</span><div class="req-body"><h3>65% of the building, minimum, residential</h3><p>At least 65% of total building area, and 65% of each occupiable floor, must convert to residential use.</p></div></li>
+      <li><span class="req-num">04</span><div class="req-body"><h3>Nonresidential capped near 35%</h3><p>In a mixed-use conversion, nonresidential space can make up at most the remaining share of the building.</p></div></li>
+      <li><span class="req-num">05</span><div class="req-body"><h3>Away from airports and bases</h3><p>Parcels within 3,000 ft of an airport or military base, or 15,000 ft of a designated military overlay zone, are excluded.</p></div></li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">What owners get in return</div>
+    <h2>The city loses most of its usual discretion</h2>
+    <p class="sub">In exchange for meeting those conditions, these projects are approved administratively, not
+    case-by-case.</p>
+    <div class="two-col">
+      <div>
+        <h3>Density and design</h3>
+        <ul>
+          <li>Up to 145 units per acre — El Paso's applicable ceiling under the bill.</li>
+          <li>No more than one parking space per unit; no parking structure required.</li>
+          <li>Setbacks capped at whatever a commercial building on the same site would face.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Process and fees</h3>
+        <ul>
+          <li>Administrative approval — no council vote, no rezoning case.</li>
+          <li>No traffic impact analysis and no traffic-mitigation payment required.</li>
+          <li>No new impact fee unless the land was already subject to one.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Explore the data</div>
+    <h2>Find a property</h2>
+    <p class="sub">Every parcel below is either a <b style="color:var(--confirmed)">confirmed</b> candidate — a
+    specific office/retail/warehouse structure code on file — or a <b style="color:var(--potential)">potential</b>
+    one, meaning the county classes it as commercial or industrial real property but no specific code rules out
+    a non-qualifying use. Potential candidates need a manual look before treating them as eligible.</p>
+
+    <div id="loading" class="loading">Loading parcel data…</div>
+
+    <div id="dashboard" style="display:none;">
+      <div class="controls">
+        <div class="field">
+          <label>Candidate type</label>
+          <select id="f-confidence">
+            <option value="all">All</option>
+            <option value="confirmed_conversion_candidate">Confirmed only</option>
+            <option value="potential_conversion_candidate">Potential only</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Age test</label>
+          <select id="f-age">
+            <option value="all">All</option>
+            <option value="Meets 5+ year test">Meets 5+ years</option>
+            <option value="Unknown - verify manually">Unknown - needs check</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Min. land acres</label>
+          <input type="number" id="f-minacres" value="0" step="0.1" min="0">
+        </div>
+        <div class="field">
+          <label>Min. potential units</label>
+          <input type="number" id="f-minunits" value="0" step="1" min="0">
+        </div>
+        <div class="field" style="flex:1;min-width:200px;">
+          <label>Search address / use code</label>
+          <input type="text" id="f-search" placeholder="e.g. retail, office, Mesa St">
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat"><div class="n" id="s-total">0</div><div class="l">Shown</div></div>
+        <div class="stat"><div class="n" id="s-confirmed">0</div><div class="l">Confirmed</div></div>
+        <div class="stat"><div class="n" id="s-potential">0</div><div class="l">Potential</div></div>
+        <div class="stat"><div class="n" id="s-units">0</div><div class="l">Max units</div></div>
+        <div class="stat"><div class="n" id="s-units650">0</div><div class="l">Units @ 650 sf</div></div>
+        <div class="stat"><div class="n" id="s-acres">0</div><div class="l">Acres</div></div>
+      </div>
+
+      <div class="legend">
+        <span><span class="dot" style="background:#1D5C4F;"></span>Confirmed candidate</span>
+        <span><span class="dot" style="background:#9C6B15;"></span>Potential candidate</span>
+      </div>
+
+      <div id="map"></div>
+
+      <p class="count-line"><b id="count-line-n">0</b> parcels match your filters.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Address</th><th>PIDN</th><th>State code</th><th>Improvement detail</th>
+              <th>Status</th><th>Acres</th><th>Max units</th><th>Units @650sf</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Built from El Paso Central Appraisal District parcel, improvement, and property crosswalk data,
+    cross-referenced against Texas SB 840 (89th Legislature) and the EPCAD structure class code table. This
+    dataset does not evaluate zoning eligibility, the 65% residential-area test, or proximity exclusions — see
+    <span class="mono">README.md</span> for full methodology and assumptions.</p>
+  </div>
+</footer>
+
+<script>
+let map, layerGroup;
+let allFeatures = [];
+
+function fmt(n){
+  if (n === null || n === undefined || isNaN(n)) return '—';
+  return Math.round(n).toLocaleString();
+}
+
+function initMap(){
+  map = L.map('map').setView([31.7619, -106.4850], 11);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap &copy; CARTO', maxZoom: 19
+  }).addTo(map);
+  layerGroup = L.layerGroup().addTo(map);
+}
+
+async function loadAllParts(){
+  const manifestNames = ['sb840_eligible_parcels_manifest.json', 'sb840_parts_manifest.json'];
+  let manifest = null;
+  for (const name of manifestNames){
+    try {
+      const r = await fetch(name);
+      if (r.ok) { manifest = await r.json(); break; }
+    } catch(e) {}
+  }
+
+  let features = [];
+  if (manifest && manifest.parts && manifest.parts.length){
+    const results = await Promise.all(manifest.parts.map(p => fetch(p).then(r => r.json())));
+    results.forEach(part => { features = features.concat(part.features || []); });
+  } else {
+    const r = await fetch('sb840_eligible_parcels.geojson');
+    if (r.ok) {
+      const data = await r.json();
+      features = data.features || [];
+    } else {
+      document.getElementById('loading').textContent = 'No parcel data found. Place sb840_eligible_parcels.geojson (or its split parts + manifest) alongside this file.';
+      return;
+    }
+  }
+
+  allFeatures = features;
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  initMap();
+
+  const totalUnits = allFeatures.reduce((s,f) => s + (Number(f.properties.Max_Units_Allowed_145_Per_Acre) || 0), 0);
+  const totalAcres = allFeatures.reduce((s,f) => s + (Number(f.properties.Land_Acres) || 0), 0);
+  const confirmed = allFeatures.filter(f => f.properties.Conversion_Candidate === 'confirmed_conversion_candidate').length;
+  const potential = allFeatures.filter(f => f.properties.Conversion_Candidate === 'potential_conversion_candidate').length;
+
+  document.getElementById('hs-total').textContent = fmt(allFeatures.length);
+  document.getElementById('hs-confirmed').textContent = fmt(confirmed);
+  document.getElementById('hs-potential').textContent = fmt(potential);
+  document.getElementById('hs-units').textContent = fmt(totalUnits);
+  document.getElementById('hs-acres').textContent = fmt(totalAcres);
+
+  applyFilters();
+}
+
+function applyFilters(){
+  const conf = document.getElementById('f-confidence').value;
+  const age = document.getElementById('f-age').value;
+  const minAcres = parseFloat(document.getElementById('f-minacres').value) || 0;
+  const minUnits = parseFloat(document.getElementById('f-minunits').value) || 0;
+  const search = document.getElementById('f-search').value.trim().toLowerCase();
+
+  const filtered = allFeatures.filter(f => {
+    const p = f.properties;
+    if (conf !== 'all' && p.Conversion_Candidate !== conf) return false;
+    if (age !== 'all' && p.Age_Test_Status !== age) return false;
+    if ((Number(p.Land_Acres) || 0) < minAcres) return false;
+    if ((Number(p.Max_Units_Allowed_145_Per_Acre) || 0) < minUnits) return false;
+    if (search) {
+      const hay = ((p.Improvement_Detail||'') + ' ' + (p.Improvement_Code||'') + ' ' + (p.State_Use_Code||'') + ' ' + (p.Address||'')).toLowerCase();
+      if (!hay.includes(search)) return false;
+    }
+    return true;
+  });
+
+  renderStats(filtered);
+  renderMap(filtered);
+  renderTable(filtered);
+}
+
+function renderStats(feats){
+  const confirmed = feats.filter(f => f.properties.Conversion_Candidate === 'confirmed_conversion_candidate').length;
+  const potential = feats.filter(f => f.properties.Conversion_Candidate === 'potential_conversion_candidate').length;
+  const maxUnits = feats.reduce((s,f) => s + (Number(f.properties.Max_Units_Allowed_145_Per_Acre) || 0), 0);
+  const units650 = feats.reduce((s,f) => s + (Number(f.properties.Units_At_650SqFt_Per_Unit) || 0), 0);
+  const acres = feats.reduce((s,f) => s + (Number(f.properties.Land_Acres) || 0), 0);
+
+  document.getElementById('s-total').textContent = fmt(feats.length);
+  document.getElementById('s-confirmed').textContent = fmt(confirmed);
+  document.getElementById('s-potential').textContent = fmt(potential);
+  document.getElementById('s-units').textContent = fmt(maxUnits);
+  document.getElementById('s-units650').textContent = fmt(units650);
+  document.getElementById('s-acres').textContent = fmt(acres);
+  document.getElementById('count-line-n').textContent = fmt(feats.length);
+}
+
+function renderMap(feats){
+  layerGroup.clearLayers();
+  feats.forEach(f => {
+    let center;
+    try {
+      const geom = f.geometry;
+      if (!geom) return;
+      const layer = L.geoJSON(geom);
+      center = layer.getBounds().getCenter();
+    } catch(e) { return; }
+    const isConfirmed = f.properties.Conversion_Candidate === 'confirmed_conversion_candidate';
+    const marker = L.circleMarker(center, {
+      radius: 5,
+      color: isConfirmed ? '#1D5C4F' : '#9C6B15',
+      fillColor: isConfirmed ? '#1D5C4F' : '#9C6B15',
+      fillOpacity: 0.75,
+      weight: 1
+    });
+    const p = f.properties;
+    marker.bindPopup(
+      '<b>' + (p.Address || 'No address on file') + '</b><br>' +
+      (p.Improvement_Detail || p.State_Use_Code || '') + '<br>' +
+      'Max units: ' + fmt(p.Max_Units_Allowed_145_Per_Acre) + ' &middot; ' +
+      'Acres: ' + (Number(p.Land_Acres) || 0).toFixed(2)
+    );
+    marker.addTo(layerGroup);
+  });
+}
+
+function renderTable(feats){
+  const tbody = document.getElementById('table-body');
+  const rows = feats.slice(0, 500).map(f => {
+    const p = f.properties;
+    const pillClass = p.Conversion_Candidate === 'confirmed_conversion_candidate' ? 'confirmed' : 'potential';
+    const pillLabel = p.Conversion_Candidate === 'confirmed_conversion_candidate' ? 'Confirmed' : 'Potential';
+    return '<tr>' +
+      '<td>' + (p.Address || '—') + '</td>' +
+      '<td>' + (p.PIDN || '—') + '</td>' +
+      '<td>' + (p.State_Use_Code || '—') + '</td>' +
+      '<td>' + (p.Improvement_Detail || '—') + '</td>' +
+      '<td><span class="pill ' + pillClass + '">' + pillLabel + '</span></td>' +
+      '<td>' + (Number(p.Land_Acres)||0).toFixed(2) + '</td>' +
+      '<td>' + fmt(p.Max_Units_Allowed_145_Per_Acre) + '</td>' +
+      '<td>' + fmt(p.Units_At_650SqFt_Per_Unit) + '</td>' +
+      '</tr>';
+  });
+  tbody.innerHTML = rows.join('') || '<tr><td colspan="8" style="color:var(--ink-soft);">No parcels match these filters.</td></tr>';
+}
+
+['f-confidence','f-age','f-minacres','f-minunits','f-search'].forEach(id => {
+  document.getElementById(id).addEventListener('input', applyFilters);
+  document.getElementById(id).addEventListener('change', applyFilters);
+});
+
+loadAllParts();
+</script>
+
+</body>
+</html>
