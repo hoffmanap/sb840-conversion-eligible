@@ -75,6 +75,11 @@
   .btn:hover{ background:var(--ink); color:#fff; }
   .map-shell{ position:relative; }
   #map{ height:520px; border-radius:14px; border:1px solid var(--line); margin-bottom:16px; }
+  .leaflet-popup-content-wrapper{ border-radius:10px; box-shadow:2px 4px 0 rgba(20,22,26,0.14); }
+  .leaflet-popup-content{ margin:14px 16px; font-family:'Inter',sans-serif; font-size:.92rem; line-height:1.55; color:var(--ink); min-width:200px; }
+  .leaflet-popup-content b{ font-size:.98rem; }
+  .popup-mono{ display:block; margin-top:8px; padding-top:8px; border-top:1px solid var(--line); font-family:'IBM Plex Mono', monospace; font-size:.78rem; color:#4b4e55; line-height:1.7; }
+  .leaflet-popup-tip{ box-shadow:none; }
   .map-shell:fullscreen #map{ height:100vh; border-radius:0; }
   .map-toolbar{ position:absolute; top:12px; right:12px; z-index:1000; display:flex; gap:8px; }
   .map-toolbar button{ font-family:'IBM Plex Mono',monospace; font-size:.7rem; font-weight:600; text-transform:uppercase; letter-spacing:.04em; padding:7px 11px; border:2px solid var(--ink); border-radius:8px; background:#fff; cursor:pointer; box-shadow:2px 3px 0 rgba(20,22,26,0.12); }
@@ -322,7 +327,7 @@ function initMap(){
     attribution: '&copy; OpenStreetMap &copy; CARTO', maxZoom: 19
   }).addTo(map);
 
-  clusterGroup = L.markerClusterGroup({ maxClusterRadius: 55, spiderfyOnMaxZoom: true });
+  clusterGroup = L.markerClusterGroup({ maxClusterRadius: 55, spiderfyOnMaxZoom: true, disableClusteringAtZoom: 15 });
   map.addLayer(clusterGroup);
 
   drawnItems = new L.FeatureGroup();
@@ -481,14 +486,13 @@ function renderMap(feats){
     });
     const p = f.properties;
     marker.bindPopup(
-      '<div style="font-family:Inter,sans-serif;font-size:13px;line-height:1.5;">' +
       '<b>' + (p.Address || 'No address on file') + '</b><br>' +
-      (p.Improvement_Detail || p.State_Use_Code || '') + '<br>' +
-      '<span style="font-family:IBM Plex Mono,monospace;font-size:11px;">' +
-      'Max units: ' + fmt(p.Max_Units_Allowed_145_Per_Acre) + ' &middot; ' +
-      'Units @650sf: ' + fmt(p.Units_At_650SqFt_Per_Unit) + ' &middot; ' +
-      'Acres: ' + (Number(p.Land_Acres) || 0).toFixed(2) +
-      '</span></div>'
+      (p.Improvement_Detail || p.State_Use_Code || '') +
+      '<span class="popup-mono">' +
+      'Max units: ' + fmt(p.Max_Units_Allowed_145_Per_Acre) + '<br>' +
+      'Units @ 650 sf/unit: ' + fmt(p.Units_At_650SqFt_Per_Unit) + '<br>' +
+      'Land acres: ' + (Number(p.Land_Acres) || 0).toFixed(2) +
+      '</span>'
     );
     markers.push(marker);
   });
