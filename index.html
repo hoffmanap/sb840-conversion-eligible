@@ -484,7 +484,7 @@ function renderMap(feats){
       '<div style="font-family:Inter,sans-serif;font-size:13px;line-height:1.5;">' +
       '<b>' + (p.Address || 'No address on file') + '</b><br>' +
       (p.Improvement_Detail || p.State_Use_Code || '') + '<br>' +
-      '<span style="font-family:\\'IBM Plex Mono\\',monospace;font-size:11px;">' +
+      '<span style="font-family:IBM Plex Mono,monospace;font-size:11px;">' +
       'Max units: ' + fmt(p.Max_Units_Allowed_145_Per_Acre) + ' &middot; ' +
       'Units @650sf: ' + fmt(p.Units_At_650SqFt_Per_Unit) + ' &middot; ' +
       'Acres: ' + (Number(p.Land_Acres) || 0).toFixed(2) +
