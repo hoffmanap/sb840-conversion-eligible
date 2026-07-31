@@ -1,7 +1,6 @@
 {
   "parts": [
     "sb840_eligible_parcels_part1.geojson",
-    "sb840_eligible_parcels_part2.geojson",
-    "sb840_eligible_parcels_part3.geojson"
+    "sb840_eligible_parcels_part2.geojson"
   ]
 }
