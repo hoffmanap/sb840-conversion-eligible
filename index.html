@@ -3,147 +3,186 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SB 840 Conversion Candidates — El Paso, TX</title>
+<title>SB 840 in El Paso · Conversion-Eligible Properties</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,600&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js"></script>
 <style>
   :root{
-    --paper:#FEFEFC; --ink:#161513; --ink-soft:#5A5750; --rule:#DDD9CE;
-    --accent:#1D5C4F; --accent-soft:#E9F1EE;
-    --confirmed:#1D5C4F; --potential:#9C6B15;
+    --ink:#14161a;
+    --paper:#fdfbf6;
+    --paper-2:#f4efe2;
+    --yellow:#ffd23f;
+    --pink:#ff6f9c;
+    --teal:#26c6b0;
+    --green:#159a5c;
+    --red:#e8432f;
+    --line: rgba(20,22,26,0.14);
+    --maxw: 1080px;
   }
   *{box-sizing:border-box;}
-  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.6;}
-  .sans{font-family:'Inter',sans-serif;}
-  .mono{font-family:'IBM Plex Mono',monospace;}
-  .wrap{max-width:880px;margin:0 auto;padding:0 24px;}
-  .eyebrow{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
-  h1{font-size:clamp(30px,5vw,46px);font-weight:600;line-height:1.15;margin:0 0 18px;}
-  h2{font-family:'Inter',sans-serif;font-size:22px;font-weight:600;margin:0 0 6px;}
-  p.lede{font-size:19px;color:var(--ink-soft);max-width:640px;}
-  header{padding:56px 0 40px;border-bottom:1px solid var(--rule);}
-  section{padding:44px 0;border-bottom:1px solid var(--rule);}
-  section > p.sub{color:var(--ink-soft);font-size:16px;max-width:620px;margin:0 0 28px;}
-  .stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);margin:28px 0;}
-  .stat{padding:16px 18px;border-left:1px solid var(--rule);}
-  .stat:first-child{border-left:none;}
-  .stat .n{font-family:'Inter',sans-serif;font-size:30px;font-weight:600;font-variant-numeric:tabular-nums;}
-  .stat .l{font-family:'Inter',sans-serif;font-size:12px;color:var(--ink-soft);margin-top:2px;}
-  .bars{margin:24px 0;}
-  .bar-row{display:flex;align-items:center;gap:14px;margin-bottom:10px;}
-  .bar-label{font-family:'Inter',sans-serif;font-size:13px;color:var(--ink-soft);width:110px;flex-shrink:0;text-align:right;}
-  .bar-track{flex:1;background:var(--accent-soft);height:26px;position:relative;}
-  .bar-fill{background:var(--accent);height:100%;display:flex;align-items:center;padding-left:8px;}
-  .bar-fill.potential{background:var(--potential);}
-  .bar-fill span{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:#fff;}
-  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
-  .two-col h3{font-family:'Inter',sans-serif;font-size:15px;font-weight:600;margin:0 0 8px;}
-  .two-col ul{margin:0;padding-left:18px;font-size:15px;color:var(--ink-soft);}
-  .two-col li{margin-bottom:6px;}
-  .req-list{list-style:none;margin:0;padding:0;}
-  .req-list li{display:flex;gap:16px;padding:14px 0;border-bottom:1px solid var(--rule);}
-  .req-list li:last-child{border-bottom:none;}
-  .req-num{font-family:'Inter',sans-serif;font-size:12px;color:var(--accent);font-weight:600;flex-shrink:0;width:20px;padding-top:2px;}
-  .req-body h3{font-family:'Inter',sans-serif;font-size:15.5px;font-weight:600;margin:0 0 3px;}
-  .req-body p{font-size:15px;color:var(--ink-soft);margin:0;}
-  .controls{font-family:'Inter',sans-serif;display:flex;flex-wrap:wrap;gap:16px;margin:20px 0 24px;align-items:end;}
-  .field{display:flex;flex-direction:column;gap:4px;}
-  .field label{font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-soft);font-weight:600;}
-  .field select,.field input{font-family:'Inter',sans-serif;padding:7px 9px;border:1px solid var(--ink);background:#fff;font-size:13.5px;min-width:150px;}
-  #map{height:440px;border:1px solid var(--ink);margin-bottom:18px;}
-  .legend{font-family:'Inter',sans-serif;display:flex;gap:20px;font-size:13px;margin-bottom:14px;flex-wrap:wrap;color:var(--ink-soft);}
-  .legend span{display:inline-flex;align-items:center;gap:6px;}
-  .dot{width:11px;height:11px;border-radius:50%;display:inline-block;}
-  table{width:100%;border-collapse:collapse;font-family:'Inter',sans-serif;font-size:13px;}
-  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--rule);}
-  th{font-size:10.5px;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-soft);border-bottom:2px solid var(--ink);font-weight:600;}
-  tr:hover td{background:var(--accent-soft);}
-  .pill{font-size:10.5px;padding:2px 7px;font-weight:600;text-transform:uppercase;letter-spacing:0.02em;}
-  .pill.confirmed{background:var(--accent-soft);color:var(--confirmed);}
-  .pill.potential{background:#F7EEDD;color:var(--potential);}
-  .table-wrap{max-height:420px;overflow-y:auto;border:1px solid var(--rule);}
-  .count-line{font-family:'Inter',sans-serif;font-size:13.5px;color:var(--ink-soft);margin-bottom:12px;}
-  .count-line b{color:var(--ink);}
-  .loading{font-family:'Inter',sans-serif;color:var(--ink-soft);font-size:14px;padding:24px 0;}
-  footer{padding:36px 0 72px;color:var(--ink-soft);font-size:13.5px;font-family:'Inter',sans-serif;}
-  footer a{color:var(--accent);}
-  @media(max-width:640px){.two-col{grid-template-columns:1fr;}}
+  html{scroll-behavior:smooth;}
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:'Inter', system-ui, sans-serif; -webkit-font-smoothing:antialiased; line-height:1.5; }
+  ::selection{ background:var(--yellow); }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 28px; }
+  .eyebrow{ font-family:'IBM Plex Mono', monospace; text-transform:uppercase; letter-spacing:.14em; font-size:.72rem; font-weight:600; color:var(--ink); opacity:.6; }
+  .hl{ box-decoration-break:clone; -webkit-box-decoration-break:clone; padding:.02em .28em; border-radius:.15em 0.6em .2em 0.5em / .5em .2em .6em .15em; }
+  .hl-y{ background:linear-gradient(104deg, rgba(255,210,63,0) 0%, rgba(255,210,63,.75) 6%, rgba(255,210,63,.75) 94%, rgba(255,210,63,0) 100%); }
+  .hl-t{ background:linear-gradient(104deg, rgba(38,198,176,0) 0%, rgba(38,198,176,.55) 6%, rgba(38,198,176,.55) 94%, rgba(38,198,176,0) 100%); }
+  .hl-p{ background:linear-gradient(104deg, rgba(255,111,156,0) 0%, rgba(255,111,156,.55) 6%, rgba(255,111,156,.55) 94%, rgba(255,111,156,0) 100%); }
+
+  header.hero{ padding:96px 0 64px; border-bottom:1px solid var(--line); }
+  .hero h1{ font-family:'Fraunces', serif; font-weight:900; font-size:clamp(2.4rem, 5.6vw, 4.2rem); line-height:1.03; letter-spacing:-.02em; margin:.5em 0 .3em; }
+  .hero p.dek{ font-size:1.15rem; max-width:660px; color:#3a3d44; }
+  .hero .meta{ margin-top:26px; display:flex; gap:22px; flex-wrap:wrap; font-family:'IBM Plex Mono', monospace; font-size:.76rem; color:#65686f; }
+
+  section.claim{ padding:64px 0; border-bottom:1px solid var(--line); position:relative; }
+  section.claim.tint{ background:var(--paper-2); }
+  .claim h2{ font-family:'Fraunces', serif; font-style:italic; font-weight:600; font-size:clamp(1.4rem, 3vw, 2.1rem); line-height:1.2; margin:.2em 0 0; }
+  .claim .lede{ margin-top:18px; font-size:1.05rem; max-width:700px; color:#3a3d44; }
+
+  .statrow{ display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:16px; margin-top:30px; }
+  .stat{ border:1px solid var(--line); background:var(--paper); border-radius:14px; padding:16px 16px 14px; }
+  section.claim.tint .stat{ background:#fffdf7; }
+  .stat .big{ font-family:'Fraunces', serif; font-weight:900; font-size:1.9rem; line-height:1; }
+  .stat .lbl{ margin-top:5px; font-family:'IBM Plex Mono', monospace; font-size:.7rem; text-transform:uppercase; letter-spacing:.05em; color:#65686f; }
+
+  .req-list{ list-style:none; margin:26px 0 0; padding:0; max-width:760px; }
+  .req-list li{ display:flex; gap:16px; padding:16px 0; border-bottom:1px solid var(--line); }
+  .req-list li:last-child{ border-bottom:none; }
+  .req-num{ font-family:'IBM Plex Mono', monospace; font-size:.78rem; color:var(--green); font-weight:600; flex-shrink:0; width:20px; padding-top:3px; }
+  .req-body h3{ font-family:'Inter',sans-serif; font-size:1.02rem; font-weight:700; margin:0 0 4px; }
+  .req-body p{ font-size:.95rem; color:#4b4e55; margin:0; }
+
+  .two-col{ display:grid; grid-template-columns:1fr 1fr; gap:34px; margin-top:26px; }
+  .two-col h3{ font-family:'IBM Plex Mono', monospace; font-size:.78rem; text-transform:uppercase; letter-spacing:.06em; color:#65686f; margin:0 0 10px; }
+  .two-col ul{ margin:0; padding-left:20px; font-size:.98rem; color:#3a3d44; }
+  .two-col li{ margin-bottom:9px; }
+
+  .controls{ font-family:'Inter',sans-serif; display:flex; flex-wrap:wrap; gap:14px; margin:24px 0; align-items:end; }
+  .field{ display:flex; flex-direction:column; gap:4px; }
+  .field label{ font-size:.7rem; text-transform:uppercase; letter-spacing:.05em; color:#65686f; font-weight:600; }
+  .field select,.field input{ font-family:'Inter',sans-serif; padding:8px 10px; border:1px solid var(--ink); border-radius:8px; background:#fff; font-size:.85rem; min-width:150px; }
+  .btn{ font-family:'IBM Plex Mono', monospace; font-size:.75rem; font-weight:600; text-transform:uppercase; letter-spacing:.05em; padding:9px 14px; border:2px solid var(--ink); border-radius:8px; background:#fff; cursor:pointer; }
+  .btn:hover{ background:var(--ink); color:#fff; }
+  .map-shell{ position:relative; }
+  #map{ height:520px; border-radius:14px; border:1px solid var(--line); margin-bottom:16px; }
+  .map-shell:fullscreen #map{ height:100vh; border-radius:0; }
+  .map-toolbar{ position:absolute; top:12px; right:12px; z-index:1000; display:flex; gap:8px; }
+  .map-toolbar button{ font-family:'IBM Plex Mono',monospace; font-size:.7rem; font-weight:600; text-transform:uppercase; letter-spacing:.04em; padding:7px 11px; border:2px solid var(--ink); border-radius:8px; background:#fff; cursor:pointer; box-shadow:2px 3px 0 rgba(20,22,26,0.12); }
+  .map-toolbar button:hover{ background:var(--ink); color:#fff; }
+  .legend{ font-family:'IBM Plex Mono', monospace; display:flex; gap:20px; font-size:.76rem; margin-bottom:14px; flex-wrap:wrap; color:#4b4e55; }
+  .legend span{ display:inline-flex; align-items:center; gap:6px; }
+  .dot{ width:11px; height:11px; border-radius:50%; display:inline-block; }
+  .selection-note{ font-family:'IBM Plex Mono',monospace; font-size:.76rem; background:var(--paper-2); border:1px dashed var(--line); border-radius:8px; padding:10px 14px; margin-bottom:16px; display:none; }
+  .selection-note.active{ display:block; }
+
+  table{ width:100%; border-collapse:collapse; font-family:'Inter',sans-serif; font-size:.85rem; }
+  th,td{ text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); }
+  th{ font-family:'IBM Plex Mono',monospace; font-size:.68rem; text-transform:uppercase; letter-spacing:.05em; color:#65686f; border-bottom:2px solid var(--ink); font-weight:600; }
+  tr:hover td{ background:var(--paper-2); }
+  .pill{ font-family:'IBM Plex Mono',monospace; font-size:.68rem; padding:2px 8px; font-weight:600; border-radius:6px; text-transform:uppercase; letter-spacing:.02em; }
+  .pill.confirmed{ background:rgba(21,154,92,.14); color:var(--green); }
+  .pill.potential{ background:rgba(255,210,63,.35); color:#8a6600; }
+  .table-wrap{ max-height:420px; overflow-y:auto; border:1px solid var(--line); border-radius:10px; }
+  .count-line{ font-family:'IBM Plex Mono', monospace; font-size:.8rem; color:#65686f; margin-bottom:12px; }
+  .count-line b{ color:var(--ink); }
+  .loading{ font-family:'IBM Plex Mono',monospace; color:#65686f; font-size:.85rem; padding:24px 0; }
+
+  section.bottom{ background:var(--ink); color:var(--paper); padding:80px 0 90px; }
+  section.bottom .eyebrow{ color:var(--paper); opacity:.55; }
+  section.bottom h2{ font-family:'Fraunces', serif; font-weight:900; font-style:normal; font-size:clamp(1.8rem,4vw,2.7rem); line-height:1.14; margin:.4em 0 .5em; }
+  section.bottom .hl-y, section.bottom .hl-t{ color:#14161a; }
+  section.bottom p{ max-width:700px; font-size:1.02rem; color:#d9dadd; }
+
+  footer{ padding:48px 0 84px; }
+  footer h3{ font-family:'IBM Plex Mono', monospace; font-size:.82rem; text-transform:uppercase; letter-spacing:.1em; }
+  footer p, footer li{ color:#4b4e55; font-size:.9rem; }
+  footer .cols{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:32px; margin-top:16px; }
+  footer code{ font-family:'IBM Plex Mono', monospace; background:var(--paper-2); padding:.1em .35em; border-radius:4px; font-size:.85em; }
+
+  @media(max-width:640px){ .two-col{grid-template-columns:1fr;} }
+  @media (prefers-reduced-motion: no-preference){ .reveal{ opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease; } .reveal.in{ opacity:1; transform:none; } }
 </style>
 </head>
 <body>
 
-<header>
+<header class="hero">
   <div class="wrap">
-    <div class="eyebrow">SB 840 Conversion Candidates</div>
-    <h1>Which El Paso office, retail, and warehouse buildings could become housing</h1>
-    <p class="lede">Texas SB 840 (89th Legislature) requires cities over 150,000 people to allow qualifying commercial
-    buildings to convert to multifamily or mixed-use residential — no rezoning case, no added parking, no traffic
-    study. This is every El Paso parcel the county's own appraisal records say might qualify, built from EPCAD
-    parcel, improvement, and property data.</p>
-    <div class="stat-row" id="hero-stats">
-      <div class="stat"><div class="n" id="hs-total">—</div><div class="l">Candidate parcels</div></div>
-      <div class="stat"><div class="n" id="hs-confirmed">—</div><div class="l">Confirmed</div></div>
-      <div class="stat"><div class="n" id="hs-potential">—</div><div class="l">Potential</div></div>
-      <div class="stat"><div class="n" id="hs-units">—</div><div class="l">Max units possible</div></div>
-      <div class="stat"><div class="n" id="hs-acres">—</div><div class="l">Acres in play</div></div>
+    <div class="eyebrow">El Paso Housing Data Project · SB 840 Conversions</div>
+    <h1>SB 840 lets El Paso turn empty offices, shops and warehouses into <span class="hl hl-t">homes</span></h1>
+    <p class="dek">Texas SB 840 allows qualifying office, retail, and warehouse buildings within city limits to
+    convert to multifamily or mixed-use residential — administratively, without a rezoning case. It's a tool the
+    city can use toward its housing goal. Here's every parcel El Paso's own appraisal records say could qualify,
+    built from EPCAD parcel, improvement, and property data.</p>
+    <div class="meta">
+      <span>SOURCE: EPCAD PARCEL / IMPROVEMENT / PROPERTY EXPORTS</span>
+      <span>SCOPE: CITY OF EL PASO ONLY</span>
+      <span>BASIS: TX SB 840, 89TH LEGISLATURE</span>
     </div>
   </div>
 </header>
 
-<section>
+<section class="claim reveal">
   <div class="wrap">
-    <div class="eyebrow">What the bill requires</div>
-    <h2>Not a blanket rezoning</h2>
-    <p class="sub">SB 840 (Local Government Code Ch. 218) only opens this door for buildings that clear a specific
-    set of conditions.</p>
+    <div class="eyebrow">The conversion pathway</div>
+    <h2>What has to be true about a building</h2>
+    <p class="lede">SB 840's conversion provision (Local Government Code §218.202–204) opens the door for a specific,
+    narrow set of buildings — not a blanket rezoning.</p>
     <ul class="req-list">
-      <li><span class="req-num">01</span><div class="req-body"><h3>Office, retail, or warehouse use</h3><p>The building's current, on-record use has to be one of these three categories — restaurants, auto shops, hotels and similar commercial uses don't qualify.</p></div></li>
-      <li><span class="req-num">02</span><div class="req-body"><h3>Built 5+ years ago</h3><p>The structure must have been constructed at least five years before the conversion date.</p></div></li>
-      <li><span class="req-num">03</span><div class="req-body"><h3>65% of the building, minimum, residential</h3><p>At least 65% of total building area, and 65% of each occupiable floor, must convert to residential use.</p></div></li>
-      <li><span class="req-num">04</span><div class="req-body"><h3>Nonresidential capped near 35%</h3><p>In a mixed-use conversion, nonresidential space can make up at most the remaining share of the building.</p></div></li>
-      <li><span class="req-num">05</span><div class="req-body"><h3>Away from airports and bases</h3><p>Parcels within 3,000 ft of an airport or military base, or 15,000 ft of a designated military overlay zone, are excluded.</p></div></li>
+      <li><span class="req-num">01</span><div class="req-body"><h3>Currently office, retail, or warehouse</h3><p>The building's on-record use has to be one of these three categories — restaurants, auto shops, hotels and similar commercial uses don't qualify.</p></div></li>
+      <li><span class="req-num">02</span><div class="req-body"><h3>Built 5+ years ago</h3><p>The structure must have been constructed at least five years before the proposed conversion date.</p></div></li>
+      <li><span class="req-num">03</span><div class="req-body"><h3>At least 65% converts to residential</h3><p>At least 65% of the building — and 65% of each occupiable floor — has to convert to multifamily or mixed-use residential; up to roughly 35% can stay nonresidential in a mixed-use project.</p></div></li>
+      <li><span class="req-num">04</span><div class="req-body"><h3>Permit filed on or after Sept. 1, 2025</h3><p>The conversion provision applies to buildings where a permit for the conversion was submitted on or after the bill's effective date.</p></div></li>
     </ul>
   </div>
 </section>
 
-<section>
+<section class="claim tint reveal">
   <div class="wrap">
-    <div class="eyebrow">What owners get in return</div>
-    <h2>The city loses most of its usual discretion</h2>
-    <p class="sub">In exchange for meeting those conditions, these projects are approved administratively, not
-    case-by-case.</p>
+    <div class="eyebrow">What the city gains</div>
+    <h2>A faster, cheaper path to <span class="hl hl-y">more housing</span></h2>
+    <p class="lede">For qualifying conversions, the process is designed to move — which helps El Paso add units
+    toward its own housing goal without the city having to build or subsidize them directly.</p>
     <div class="two-col">
       <div>
-        <h3>Density and design</h3>
+        <h3>Density</h3>
         <ul>
-          <li>Up to 145 units per acre — El Paso's applicable ceiling under the bill.</li>
-          <li>No more than one parking space per unit; no parking structure required.</li>
-          <li>Setbacks capped at whatever a commercial building on the same site would face.</li>
+          <li>Up to 145 units per acre — El Paso's applicable density ceiling for mixed-use residential and multifamily development under the bill.</li>
+          <li>Height and setback limits for the conversion can't be stricter than what a commercial building on the same site would already face.</li>
         </ul>
       </div>
       <div>
-        <h3>Process and fees</h3>
+        <h3>Process, parking, and fees</h3>
         <ul>
-          <li>Administrative approval — no council vote, no rezoning case.</li>
-          <li>No traffic impact analysis and no traffic-mitigation payment required.</li>
-          <li>No new impact fee unless the land was already subject to one.</li>
+          <li><b>No additional parking required</b> — a conversion only has to keep whatever parking already exists on site; the city can't require more.</li>
+          <li>Administrative approval once the standards are met — no council vote, no separate rezoning case.</li>
+          <li>No traffic impact analysis, and no traffic-mitigation payment tied to the conversion.</li>
+          <li>No new impact fee, unless the land was already subject to one before the permit was filed.</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
-<section>
+<section class="claim reveal">
   <div class="wrap">
     <div class="eyebrow">Explore the data</div>
     <h2>Find a property</h2>
-    <p class="sub">Every parcel below is either a <b style="color:var(--confirmed)">confirmed</b> candidate — a
-    specific office/retail/warehouse structure code on file — or a <b style="color:var(--potential)">potential</b>
-    one, meaning the county classes it as commercial or industrial real property but no specific code rules out
-    a non-qualifying use. Potential candidates need a manual look before treating them as eligible.</p>
+    <p class="lede">Every parcel below is either a <b style="color:var(--green)">confirmed</b> candidate — a
+    specific office/retail/warehouse structure code on file — or a <b style="color:#8a6600">potential</b> one,
+    meaning the county classes it as commercial or industrial real property but no specific code rules out a
+    non-qualifying use. Potential candidates need a manual look. Existing residential buildings — including
+    multifamily — are excluded; this tool only surfaces non-residential buildings that fit a permitted conversion
+    use.</p>
 
     <div id="loading" class="loading">Loading parcel data…</div>
 
@@ -179,21 +218,33 @@
         </div>
       </div>
 
-      <div class="stat-row">
-        <div class="stat"><div class="n" id="s-total">0</div><div class="l">Shown</div></div>
-        <div class="stat"><div class="n" id="s-confirmed">0</div><div class="l">Confirmed</div></div>
-        <div class="stat"><div class="n" id="s-potential">0</div><div class="l">Potential</div></div>
-        <div class="stat"><div class="n" id="s-units">0</div><div class="l">Max units</div></div>
-        <div class="stat"><div class="n" id="s-units650">0</div><div class="l">Units @ 650 sf</div></div>
-        <div class="stat"><div class="n" id="s-acres">0</div><div class="l">Acres</div></div>
+      <div class="statrow">
+        <div class="stat"><div class="big" id="s-total">0</div><div class="lbl">Shown</div></div>
+        <div class="stat"><div class="big" id="s-confirmed">0</div><div class="lbl">Confirmed</div></div>
+        <div class="stat"><div class="big" id="s-potential">0</div><div class="lbl">Potential</div></div>
+        <div class="stat"><div class="big" id="s-units">0</div><div class="lbl">Max units possible</div></div>
+        <div class="stat"><div class="big" id="s-units650">0</div><div class="lbl">Units at 650 sf/unit</div></div>
+        <div class="stat"><div class="big" id="s-acres">0</div><div class="lbl">Total acres</div></div>
       </div>
 
-      <div class="legend">
-        <span><span class="dot" style="background:#1D5C4F;"></span>Confirmed candidate</span>
-        <span><span class="dot" style="background:#9C6B15;"></span>Potential candidate</span>
+      <div class="legend" style="margin-top:26px;">
+        <span><span class="dot" style="background:#159a5c;"></span>Confirmed candidate</span>
+        <span><span class="dot" style="background:#e0ab00;"></span>Potential candidate</span>
+        <span>Zoom in to see individual parcels — clusters break apart automatically.</span>
       </div>
 
-      <div id="map"></div>
+      <div class="selection-note" id="selection-note">
+        Showing only parcels inside your drawn study area. <span id="selection-count-text"></span>
+        <button class="btn" id="clear-selection-btn" style="margin-left:10px;padding:4px 10px;">Clear area</button>
+      </div>
+
+      <div class="map-shell" id="map-shell">
+        <div id="map"></div>
+        <div class="map-toolbar">
+          <button id="draw-btn" title="Draw a study area">Draw study area</button>
+          <button id="fullscreen-btn" title="Toggle fullscreen">Fullscreen</button>
+        </div>
+      </div>
 
       <p class="count-line"><b id="count-line-n">0</b> parcels match your filters.</p>
       <div class="table-wrap">
@@ -211,18 +262,54 @@
   </div>
 </section>
 
+<section class="bottom reveal">
+  <div class="wrap">
+    <div class="eyebrow">Bottom line</div>
+    <h2>El Paso doesn't have to build this housing.<br>It just has to <span class="hl hl-y">let it happen</span>.</h2>
+    <p>SB 840 hands El Paso a conversion pathway for buildings that are already sitting there — vacant or
+    underused office space, aging retail, spare warehouse capacity — and lets qualifying projects move through
+    administrative approval instead of a rezoning fight. That's a lever the city can use toward its own housing
+    goal at essentially no direct cost, on top of whatever else it's already doing.</p>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
-    <p>Built from El Paso Central Appraisal District parcel, improvement, and property crosswalk data,
-    cross-referenced against Texas SB 840 (89th Legislature) and the EPCAD structure class code table. This
-    dataset does not evaluate zoning eligibility, the 65% residential-area test, or proximity exclusions — see
-    <span class="mono">README.md</span> for full methodology and assumptions.</p>
+    <h3>Methods &amp; caveats</h3>
+    <div class="cols">
+      <div>
+        <p>Built from El Paso Central Appraisal District parcel, improvement, and property crosswalk data,
+        filtered to City of El Paso jurisdiction only, cross-referenced against Texas SB 840 (89th Legislature)
+        and the EPCAD structure class code table.</p>
+      </div>
+      <div>
+        <p><strong>Confirmed</strong> candidates have a specific office/retail/warehouse structure code on file.
+        <strong>Potential</strong> candidates are commercially/industrially classed parcels with no specific code
+        to rule them out, and need manual verification. Existing multifamily and other residential structures
+        are explicitly excluded from both tiers.</p>
+      </div>
+      <div>
+        <p>This dataset does not evaluate zoning eligibility, the 65% residential-area conversion test at the
+        individual-building level, or proximity exclusions (airports, military bases). See <code>README.md</code>
+        for full methodology, assumptions, and a running list of corrections.</p>
+      </div>
+    </div>
   </div>
 </footer>
 
 <script>
-let map, layerGroup;
+  if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+
+let map, clusterGroup, drawnItems, drawControl;
 let allFeatures = [];
+let selectionPolygon = null;
 
 function fmt(n){
   if (n === null || n === undefined || isNaN(n)) return '—';
@@ -234,7 +321,40 @@ function initMap(){
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; OpenStreetMap &copy; CARTO', maxZoom: 19
   }).addTo(map);
-  layerGroup = L.layerGroup().addTo(map);
+
+  clusterGroup = L.markerClusterGroup({ maxClusterRadius: 55, spiderfyOnMaxZoom: true });
+  map.addLayer(clusterGroup);
+
+  drawnItems = new L.FeatureGroup();
+  map.addLayer(drawnItems);
+
+  document.getElementById('draw-btn').addEventListener('click', () => {
+    new L.Draw.Polygon(map, { shapeOptions: { color: '#14161a', weight: 2 } }).enable();
+  });
+
+  map.on(L.Draw.Event.CREATED, e => {
+    drawnItems.clearLayers();
+    drawnItems.addLayer(e.layer);
+    selectionPolygon = e.layer.toGeoJSON();
+    document.getElementById('selection-note').classList.add('active');
+    applyFilters();
+  });
+
+  document.getElementById('clear-selection-btn').addEventListener('click', () => {
+    selectionPolygon = null;
+    drawnItems.clearLayers();
+    document.getElementById('selection-note').classList.remove('active');
+    applyFilters();
+  });
+
+  document.getElementById('fullscreen-btn').addEventListener('click', () => {
+    const shell = document.getElementById('map-shell');
+    if (!document.fullscreenElement) {
+      shell.requestFullscreen().then(() => setTimeout(() => map.invalidateSize(), 200));
+    } else {
+      document.exitFullscreen().then(() => setTimeout(() => map.invalidateSize(), 200));
+    }
+  });
 }
 
 async function loadAllParts(){
@@ -253,8 +373,6 @@ async function loadAllParts(){
     const results = await Promise.all(manifest.parts.map(p => fetch(p).then(r => r.json())));
     results.forEach(part => { features = features.concat(part.features || []); });
   } else {
-    // No manifest found - auto-discover numbered parts by probing
-    // sb840_eligible_parcels_part1.geojson, _part2, _part3... until one 404s.
     const discovered = [];
     let i = 1;
     while (true) {
@@ -266,11 +384,9 @@ async function loadAllParts(){
         i++;
       } catch(e) { break; }
     }
-
     if (discovered.length){
       discovered.forEach(part => { features = features.concat(part.features || []); });
     } else {
-      // Fall back to a single unsplit file
       try {
         const r = await fetch('sb840_eligible_parcels.geojson');
         if (r.ok) {
@@ -286,22 +402,18 @@ async function loadAllParts(){
     return;
   }
 
+  features.forEach(f => {
+    try {
+      const layer = L.geoJSON(f.geometry);
+      const c = layer.getBounds().getCenter();
+      f._center = [c.lat, c.lng];
+    } catch(e) { f._center = null; }
+  });
+
   allFeatures = features;
   document.getElementById('loading').style.display = 'none';
   document.getElementById('dashboard').style.display = 'block';
   initMap();
-
-  const totalUnits = allFeatures.reduce((s,f) => s + (Number(f.properties.Max_Units_Allowed_145_Per_Acre) || 0), 0);
-  const totalAcres = allFeatures.reduce((s,f) => s + (Number(f.properties.Land_Acres) || 0), 0);
-  const confirmed = allFeatures.filter(f => f.properties.Conversion_Candidate === 'confirmed_conversion_candidate').length;
-  const potential = allFeatures.filter(f => f.properties.Conversion_Candidate === 'potential_conversion_candidate').length;
-
-  document.getElementById('hs-total').textContent = fmt(allFeatures.length);
-  document.getElementById('hs-confirmed').textContent = fmt(confirmed);
-  document.getElementById('hs-potential').textContent = fmt(potential);
-  document.getElementById('hs-units').textContent = fmt(totalUnits);
-  document.getElementById('hs-acres').textContent = fmt(totalAcres);
-
   applyFilters();
 }
 
@@ -322,8 +434,16 @@ function applyFilters(){
       const hay = ((p.Improvement_Detail||'') + ' ' + (p.Improvement_Code||'') + ' ' + (p.State_Use_Code||'') + ' ' + (p.Address||'')).toLowerCase();
       if (!hay.includes(search)) return false;
     }
+    if (selectionPolygon && f._center) {
+      const pt = turf.point([f._center[1], f._center[0]]);
+      if (!turf.booleanPointInPolygon(pt, selectionPolygon)) return false;
+    }
     return true;
   });
+
+  if (selectionPolygon) {
+    document.getElementById('selection-count-text').textContent = filtered.length + ' parcels inside the drawn area.';
+  }
 
   renderStats(filtered);
   renderMap(filtered);
@@ -347,32 +467,32 @@ function renderStats(feats){
 }
 
 function renderMap(feats){
-  layerGroup.clearLayers();
+  clusterGroup.clearLayers();
+  const markers = [];
   feats.forEach(f => {
-    let center;
-    try {
-      const geom = f.geometry;
-      if (!geom) return;
-      const layer = L.geoJSON(geom);
-      center = layer.getBounds().getCenter();
-    } catch(e) { return; }
+    if (!f._center) return;
     const isConfirmed = f.properties.Conversion_Candidate === 'confirmed_conversion_candidate';
-    const marker = L.circleMarker(center, {
-      radius: 5,
-      color: isConfirmed ? '#1D5C4F' : '#9C6B15',
-      fillColor: isConfirmed ? '#1D5C4F' : '#9C6B15',
-      fillOpacity: 0.75,
+    const marker = L.circleMarker(f._center, {
+      radius: 6,
+      color: isConfirmed ? '#159a5c' : '#e0ab00',
+      fillColor: isConfirmed ? '#159a5c' : '#e0ab00',
+      fillOpacity: 0.8,
       weight: 1
     });
     const p = f.properties;
     marker.bindPopup(
+      '<div style="font-family:Inter,sans-serif;font-size:13px;line-height:1.5;">' +
       '<b>' + (p.Address || 'No address on file') + '</b><br>' +
       (p.Improvement_Detail || p.State_Use_Code || '') + '<br>' +
+      '<span style="font-family:\\'IBM Plex Mono\\',monospace;font-size:11px;">' +
       'Max units: ' + fmt(p.Max_Units_Allowed_145_Per_Acre) + ' &middot; ' +
-      'Acres: ' + (Number(p.Land_Acres) || 0).toFixed(2)
+      'Units @650sf: ' + fmt(p.Units_At_650SqFt_Per_Unit) + ' &middot; ' +
+      'Acres: ' + (Number(p.Land_Acres) || 0).toFixed(2) +
+      '</span></div>'
     );
-    marker.addTo(layerGroup);
+    markers.push(marker);
   });
+  clusterGroup.addLayers(markers);
 }
 
 function renderTable(feats){
@@ -392,7 +512,7 @@ function renderTable(feats){
       '<td>' + fmt(p.Units_At_650SqFt_Per_Unit) + '</td>' +
       '</tr>';
   });
-  tbody.innerHTML = rows.join('') || '<tr><td colspan="8" style="color:var(--ink-soft);">No parcels match these filters.</td></tr>';
+  tbody.innerHTML = rows.join('') || '<tr><td colspan="8" style="color:#65686f;">No parcels match these filters.</td></tr>';
 }
 
 ['f-confidence','f-age','f-minacres','f-minunits','f-search'].forEach(id => {
