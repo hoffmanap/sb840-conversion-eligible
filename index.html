@@ -248,18 +248,42 @@ async function loadAllParts(){
   }
 
   let features = [];
+
   if (manifest && manifest.parts && manifest.parts.length){
     const results = await Promise.all(manifest.parts.map(p => fetch(p).then(r => r.json())));
     results.forEach(part => { features = features.concat(part.features || []); });
   } else {
-    const r = await fetch('sb840_eligible_parcels.geojson');
-    if (r.ok) {
-      const data = await r.json();
-      features = data.features || [];
-    } else {
-      document.getElementById('loading').textContent = 'No parcel data found. Place sb840_eligible_parcels.geojson (or its split parts + manifest) alongside this file.';
-      return;
+    // No manifest found - auto-discover numbered parts by probing
+    // sb840_eligible_parcels_part1.geojson, _part2, _part3... until one 404s.
+    const discovered = [];
+    let i = 1;
+    while (true) {
+      const name = `sb840_eligible_parcels_part${i}.geojson`;
+      try {
+        const r = await fetch(name);
+        if (!r.ok) break;
+        discovered.push(await r.json());
+        i++;
+      } catch(e) { break; }
     }
+
+    if (discovered.length){
+      discovered.forEach(part => { features = features.concat(part.features || []); });
+    } else {
+      // Fall back to a single unsplit file
+      try {
+        const r = await fetch('sb840_eligible_parcels.geojson');
+        if (r.ok) {
+          const data = await r.json();
+          features = data.features || [];
+        }
+      } catch(e) {}
+    }
+  }
+
+  if (!features.length){
+    document.getElementById('loading').textContent = 'No parcel data found. Place sb840_eligible_parcels_part1.geojson (etc.), or sb840_eligible_parcels.geojson, alongside this file.';
+    return;
   }
 
   allFeatures = features;
